@@ -1,0 +1,27 @@
+.navi_bar {
+  height: 75px;
+  width: 100%;
+  background-color: salmon;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navi_bar a {
+  text-decoration: none;
+  color: #000;
+  font-size: 20px;
+  /* font-weight: 500; */
+}
+
+.navi_left {
+  display: flex;
+  justify-content: space-evenly;
+  width: 50%;
+}
+
+.navi_right {
+  width: 30%;
+  margin-left: 50px;
+  font-weight: bold;
+}

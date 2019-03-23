@@ -1,0 +1,87 @@
+.form_div {
+  width: 80%;
+  height: 90px;
+  /* background-color: beige; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+}
+
+.page_title {
+  font-size: 25px;
+  padding-bottom: 5px;
+}
+
+.form_input {
+  width: 500px;
+  height: 30px;
+  font-size: 16px;
+  margin-right: 10px;
+  padding-left: 5px;
+  border-radius: 5px;
+  border: none;
+}
+
+.form_button {
+  height: 30px;
+  width: 120px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+}
+
+.songs_maindiv {
+  width: 80%;
+  background-color: #d1d1db;
+}
+
+.songs_container {
+  display: flex;
+  padding: 5px;
+}
+
+.songs_left {
+  padding: 10px;
+}
+
+.songs_img {
+  width: 200px;
+  height: auto;
+}
+
+.songs_right {
+  padding: 10px;
+}
+
+.songs_title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+  width: 650px;
+}
+
+.songs_favorite {
+  display: flex;
+}
+
+.songs_poster {
+  display: flex;
+  padding: 0 5px 10px;
+}
+
+.songs_separator {
+  padding: 0 5px;
+}
+
+.songs_comments {
+  background-color: pink;
+  height: 30px;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.songs_form {
+}

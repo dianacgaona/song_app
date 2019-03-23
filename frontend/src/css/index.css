@@ -1,0 +1,44 @@
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+p,
+a,
+img,
+ol,
+ul,
+li,
+form,
+label,
+nav {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-family: sans-serif;
+  vertical-align: baseline;
+}
+
+body {
+  background-color: #621389;
+}
+
+.main_container {
+  height: 100%;
+  background-color: #d1d1d1;
+  padding-top: 10px;
+  width: 80%;
+  margin: 5px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home_text {
+  font-size: 50px;
+  height: 100vh;
+  padding-top: 50px;
+}
