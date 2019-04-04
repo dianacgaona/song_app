@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class SongItem extends Component {
   state = {
-    commentInput: ""
+    commentInput: '',
   };
 
   componentDidMount() {
@@ -16,8 +16,8 @@ class SongItem extends Component {
     let songComments = comments.map(comment => {
       return (
         <div key={comment.id}>
-          <Link exact to={`/users/${comment.commenter_id}`}>
-            {" "}
+          <Link to={`/users/${comment.commenter_id}`}>
+            {' '}
             {comment.commenter}
           </Link>
           <p>{comment.comments}</p>
@@ -29,7 +29,7 @@ class SongItem extends Component {
 
   handleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -39,20 +39,18 @@ class SongItem extends Component {
       .createComment({
         comment_body: this.state.commentInput,
         user_id: this.props.currentUser.id,
-        song_id: this.props.songID
+        song_id: this.props.songID,
       })
       .then(() => {
         this.props.getAllCommentsForSong(this.props.songID);
       });
     this.setState({
-      commentInput: ""
+      commentInput: '',
     });
   };
 
   isFaved = songID => {
     let { favorites, currentUser } = this.props;
-    // debugger;
-    // if (!currentUser || !favorites) return null;
     return favorites.find(fave => {
       return fave.user_id === currentUser.id && fave.song_id === songID;
     });
@@ -63,12 +61,9 @@ class SongItem extends Component {
     this.props
       .createFavorite({
         user_id: this.props.currentUser.id,
-        song_id: this.props.songID
+        song_id: this.props.songID,
       })
-      .then(() => {
-        // debugger;
-        // this.props.getAllFavorites();
-      });
+      .then(() => {});
   };
 
   toUnfave = e => {
@@ -76,7 +71,7 @@ class SongItem extends Component {
     this.props
       .deleteFavorite({
         user_id: this.props.currentUser.id,
-        song_id: this.props.songID
+        song_id: this.props.songID,
       })
       .then(() => {
         this.props.getAllFavorites();
@@ -91,10 +86,8 @@ class SongItem extends Component {
       userID,
       username,
       song_genre,
-      totalFaves
+      totalFaves,
     } = this.props;
-    // console.log(this.props.currentUser.id, "MY CURRENT USER");
-    // debugger;
     return (
       <div className="songs_container">
         <div className="songs_left">
@@ -120,7 +113,7 @@ class SongItem extends Component {
             <p>{song_genre}</p>
           </div>
           <div className="songs_comments">
-            {this.props.songs ? this.displaySongComments(songID) : ""}
+            {this.props.songs ? this.displaySongComments(songID) : ''}
           </div>
           <div className="songs_form">
             <form className="form" onSubmit={this.handleSubmit}>

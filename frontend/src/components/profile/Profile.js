@@ -14,7 +14,6 @@ class Profile extends Component {
     this.props.getAllUsers();
     this.props.getAllFavorites();
     this.props.getAllGenres();
-    this.props.getAllComments();
   }
 
   displayCreated = () => {
@@ -165,12 +164,14 @@ class Profile extends Component {
   };
 
   render() {
-    console.log(this.props.createSong, 'CREATE SONG');
-    console.log(this.props, 'PROPS IN PROFILE');
-    // debugger;
+    console.log(this.props.currentUser, 'PROPS IN PROFILE');
     return (
       <div className="main_container">
-        <h1>Username goes here </h1>
+        {!this.props.currentUser ? (
+          <div>loading</div>
+        ) : (
+          <h1>{this.props.currentUser.username}</h1>
+        )}
         {!this.props.currentUser ? <div>loading</div> : this.displayForm()}
         <div>
           <button onClick={this.togglePosted}>Posted</button>
@@ -187,7 +188,6 @@ class Profile extends Component {
             <div>{this.displayFaved()}</div>
           </div>
         )}
-        {/* <div className="page_title">{this.displayUser()}</div> */}
       </div>
     );
   }

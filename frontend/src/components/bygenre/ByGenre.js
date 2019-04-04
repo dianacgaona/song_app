@@ -12,7 +12,6 @@ class AllSongs extends Component {
   componentDidMount() {
     this.props.getAllGenres();
     this.props.getAllFavorites();
-    this.props.getAllComments();
     this.props.getAllUsers();
     this.props.getAllSongs();
   }

@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import "../../css/index.css";
-import "../../css/songs.css";
-import SongItemContainer from "../songitem/SongItemContainer";
+import React, { Component } from 'react';
+import '../../css/index.css';
+import '../../css/songs.css';
+import SongItemContainer from '../songitem/SongItemContainer';
 
 class AllSongs extends Component {
   componentDidMount() {
@@ -9,7 +9,6 @@ class AllSongs extends Component {
     this.props.getAllUsers();
     this.props.getAllFavorites();
     this.props.getAllGenres();
-    this.props.getAllComments();
   }
 
   displaySongs = () => {
@@ -47,7 +46,7 @@ class AllSongs extends Component {
   };
 
   render() {
-    console.log(this.props, "PROPS OF COMPONENT");
+    console.log(this.props, 'PROPS OF COMPONENT');
     return (
       <div className="main_container">
         <h1 className="page_title"> Songs By Popularity</h1>

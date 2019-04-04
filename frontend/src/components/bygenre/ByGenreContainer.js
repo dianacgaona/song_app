@@ -4,7 +4,6 @@ import { getAllSongs } from "../../actions/songsAction";
 import { getAllUsers } from "../../actions/usersAction";
 import { getAllGenres } from "../../actions/genresAction";
 import { getAllFavorites } from "../../actions/favoritesAction";
-import { getAllComments } from "../../actions/commentsAction";
 import ByGenre from "./ByGenre";
 
 const mapStateToProps = state => {
@@ -23,7 +22,6 @@ const mapDispatchToProps = dispatch => {
     getAllSongs: () => dispatch(getAllSongs()),
     getAllUsers: () => dispatch(getAllUsers()),
     getAllFavorites: () => dispatch(getAllFavorites()),
-    getAllComments: () => dispatch(getAllComments()),
     getAllGenres: () => dispatch(getAllGenres())
   };
 };
