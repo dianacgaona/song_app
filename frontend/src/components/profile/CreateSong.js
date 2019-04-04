@@ -9,7 +9,7 @@ class CreateSong extends Component {
 
   componentDidMount = () => {
     let id = this.props.user.id;
-    this.props.getAllGenres(id);
+    this.props.getOneGenre(id);
   };
 
   handleChange = e => {

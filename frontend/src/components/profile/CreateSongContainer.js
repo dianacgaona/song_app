@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 import CreateSong from "./CreateSong";
 // import { getCurrentUser } from '../../actions/usersAction';
 import { createSong } from "../../actions/songsAction";
-import { getAllGenres } from "../../actions/genresAction";
 
 const mapStateToProps = (state, ownProps) => {
   // debugger;
@@ -20,8 +19,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   // debugger;
   return {
-    createSong: song => dispatch(createSong(song)),
-    getAllGenres: () => dispatch(getAllGenres())
+    createSong: song => dispatch(createSong(song))
   };
 };
 

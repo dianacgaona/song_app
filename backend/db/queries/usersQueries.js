@@ -80,7 +80,7 @@ const getUserFavoriteSongs = (req, res, next) => {
 const getUserPostedSongs = (req, res, next) => {
   let userId = parseInt(req.params.id);
   db.any(
-    "SELECT songs.id, title, img_url, songs.user_id,COUNT(favorites.song_id) AS favorites, genre_id, genre_name AS genre, ARRAY_AGG(DISTINCT comment_body) AS comments FROM songs JOIN genres ON genres.id = songs.genre_id JOIN favorites ON songs.id = favorites.song_id JOIN comments ON songs.id = comments.song_id WHERE songs.user_id=$1 GROUP BY songs.id, title, img_url, songs.user_id, genre_id, genre",
+    "SELECT songs.id, title, img_url, songs.user_id, COUNT(favorites.song_id) AS favorites, genre_id, genre_name AS genre, ARRAY_AGG(DISTINCT comment_body) AS comments FROM songs JOIN genres ON genres.id = songs.genre_id JOIN favorites ON songs.id = favorites.song_id JOIN comments ON songs.id = comments.song_id WHERE songs.user_id=$1 GROUP BY songs.id, title, img_url, songs.user_id, genre_id, genre",
     [userId]
   )
     .then(songs => {

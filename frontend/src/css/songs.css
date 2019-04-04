@@ -1,7 +1,7 @@
 .form_div {
   width: 80%;
-  height: 90px;
-  /* background-color: beige; */
+  height: 40px;
+  background-color: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,8 +77,8 @@
 
 .songs_comments {
   background-color: pink;
-  height: 30px;
   padding: 5px;
+  overflow: auto;
   border-radius: 5px;
   margin-bottom: 5px;
 }

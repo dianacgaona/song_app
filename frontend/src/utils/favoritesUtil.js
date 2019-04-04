@@ -4,14 +4,10 @@ export const getAllFavorites = () => {
   return axios.get("/favorites");
 };
 
-export const getFavoritesForSong = id => {
-  return axios.get(`/favorites/forSong/${id}`);
-};
-
 export const createFavorite = favorite => {
-  axios.post("/favorites", favorite);
+  return axios.post("/favorites", favorite);
 };
 
-export const deleteFavorite = id => {
-  axios.delete(`/favorites/${id}`);
+export const deleteFavorite = (userId, songId) => {
+  return axios.delete(`/favorites/${userId}/${songId}`);
 };

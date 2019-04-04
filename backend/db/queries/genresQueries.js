@@ -14,6 +14,21 @@ const getAllGenres = (req, res, next) => {
     });
 };
 
+const getOneGenre = (req, res, next) => {
+  let genreId = parseInt(req.params.id);
+  db.one("SELECT * FROM genres WHERE id=$1", [genreId])
+    .then(genre => {
+      res.status(200).json({
+        status: "success",
+        genre: genre,
+        message: "Genre received"
+      });
+    })
+    .catch(err => {
+      return next(err);
+    });
+};
+
 const createGenre = (req, res, next) => {
   db.none("INSERT INTO genres (genre_name) VALUES (${genre_name})", {
     genre_name: req.body.genre_name
@@ -28,4 +43,4 @@ const createGenre = (req, res, next) => {
     });
 };
 
-module.exports = { getAllGenres, createGenre };
+module.exports = { getAllGenres, getOneGenre, createGenre };

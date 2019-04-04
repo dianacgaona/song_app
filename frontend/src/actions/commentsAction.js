@@ -1,28 +1,27 @@
-import * as commentsApi from '../utils/commentsUtil';
+import * as commentsApi from "../utils/commentsUtil";
 
-export let RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
-export let RECEIVE_COMMENT = 'RECEIVE_COMMENT';
-export let RECEIVE_COMMENTS_FOR_SONG = 'RECEIVE_COMMENTS_FOR_SONG';
+export let RECEIVE_COMMENTS = "RECEIVE_COMMENTS";
+export let RECEIVE_COMMENT = "RECEIVE_COMMENT";
+export let RECEIVE_COMMENTS_FOR_SONG = "RECEIVE_COMMENTS_FOR_SONG";
 
 export const receivedComments = comments => {
   return {
     type: RECEIVE_COMMENTS,
-    comments: comments,
+    comments: comments
   };
 };
 
 export const receivedComment = comment => {
   return {
     type: RECEIVE_COMMENT,
-    comment: comment,
+    comment: comment
   };
 };
 
-export const receivedSongComments = songComments => {
-  // debugger;
+export const receivedCommentsForSong = (id, comments) => {
   return {
     type: RECEIVE_COMMENTS_FOR_SONG,
-    songComments: songComments,
+    payload: { id, comments }
   };
 };
 
@@ -30,6 +29,7 @@ export const createComment = comment => dispatch => {
   return commentsApi
     .createComment(comment)
     .then(res => {
+      debugger;
       return dispatch(receivedComment(res.data.comment));
     })
     .catch(err => {
@@ -41,7 +41,6 @@ export const getAllComments = () => dispatch => {
   return commentsApi
     .getAllComments()
     .then(res => {
-      // debugger;
       return dispatch(receivedComments(res.data.comments));
     })
     .catch(err => {
@@ -49,12 +48,11 @@ export const getAllComments = () => dispatch => {
     });
 };
 
-export const getCommentsForASong = id => dispatch => {
-  // debugger;
+export const getAllCommentsForSong = id => dispatch => {
   return commentsApi
-    .getCommentsForASong(id)
+    .getAllCommentsForSong(id)
     .then(res => {
-      return dispatch(receivedSongComments(res.data.comments));
+      return dispatch(receivedCommentsForSong(id, res.data.comments));
     })
     .catch(err => {
       console.log(err);

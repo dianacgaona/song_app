@@ -1,12 +1,14 @@
-const { db } = require('../index.js');
+const { db } = require("../index.js");
 
 const getAllComments = (req, res, next) => {
-  db.any('SELECT * FROM comments')
+  db.any(
+    "SELECT comments.id, comment_body, comments.user_id AS commenter_id, users.username AS commenter, song_id FROM comments JOIN users ON users.id = comments.user_id GROUP BY comments.id, comment_body, commenter_id, commenter, song_id"
+  )
     .then(comments => {
       res.status(200).json({
-        status: 'success',
+        status: "success",
         comments: comments,
-        message: 'Comments received',
+        message: "Comments received"
       });
     })
     .catch(err => {
@@ -15,16 +17,16 @@ const getAllComments = (req, res, next) => {
 };
 
 const getCommentsForASong = (req, res, next) => {
-  let songId = parseInt(req.body.id);
+  let songId = parseInt(req.params.id);
   db.any(
-    'SELECT song_id, comments.id AS comment_id, comment_body AS comments, user_id AS commenter_id, username AS commenter FROM comments JOIN users ON comments.user_id = users.id WHERE song_id =$1 GROUP BY song_id, comment_id, comments, commenter_id, commenter',
+    "SELECT song_id, comments.id AS comment_id, comment_body AS comments, user_id AS commenter_id, username AS commenter FROM comments JOIN users ON comments.user_id = users.id WHERE song_id =$1 GROUP BY song_id, comment_id, comments, commenter_id, commenter",
     [songId]
   )
     .then(comments => {
       res.status(200).json({
-        status: 'success',
+        status: "success",
         comments: comments,
-        message: 'Comments for specific song received',
+        message: "Comments for specific song received"
       });
     })
     .catch(err => {
@@ -33,20 +35,21 @@ const getCommentsForASong = (req, res, next) => {
 };
 
 const createComment = (req, res, next) => {
+  console.log(req.body);
   let user = parseInt(req.body.user_id);
   let song = parseInt(req.body.song_id);
   db.none(
-    'INSERT INTO comments (comment_body, user_id, song_id) VALUES (${comment_body}, ${user_id}, ${song_id})',
+    "INSERT INTO comments (comment_body, user_id, song_id) VALUES (${comment_body}, ${user_id}, ${song_id})",
     {
       comment_body: req.body.comment_body,
       user_id: user,
-      song_id: song,
+      song_id: song
     }
   )
     .then(() => {
       res.status(200).json({
-        status: 'success',
-        message: 'Comment created!',
+        status: "success",
+        message: "Comment created!"
       });
     })
     .catch(err => {
@@ -58,17 +61,17 @@ const updateComment = (req, res, next) => {
   let user = parseInt(req.body.user_id);
   let song = parseInt(req.body.song_id);
   db.none(
-    'UPDATE comments SET comment_body=${comment_body}, user_id=${user_id}, song_id=${song_id} WHERE id=${id}',
+    "UPDATE comments SET comment_body=${comment_body}, user_id=${user_id}, song_id=${song_id} WHERE id=${id}",
     {
       comment_body: req.body.comment_body,
       user_id: user,
       song_id: song,
-      id: parseInt(req.params.id),
+      id: parseInt(req.params.id)
     }
   )
     .then(() => {
       res.status(200).json({
-        message: 'Comment updated!',
+        message: "Comment updated!"
       });
     })
     .catch(err => {
@@ -78,12 +81,12 @@ const updateComment = (req, res, next) => {
 
 const deleteComment = (req, res, next) => {
   let commentId = parseInt(req.params.id);
-  db.result('DELETE FROM comments WHERE id=$1', commentId)
+  db.result("DELETE FROM comments WHERE id=$1", commentId)
     .then(result => {
       res.status(200).json({
-        status: 'success',
+        status: "success",
         result: result,
-        message: 'Comment deleted',
+        message: "Comment deleted"
       });
     })
     .catch(err => {
@@ -96,5 +99,5 @@ module.exports = {
   getCommentsForASong,
   createComment,
   updateComment,
-  deleteComment,
+  deleteComment
 };

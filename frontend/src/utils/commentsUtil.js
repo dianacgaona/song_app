@@ -1,13 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const getAllComments = () => {
-  return axios.get("/comments");
-};
-
-export const getCommentsForASong = id => {
-  return axios.get(`/comments/${id}`);
+  return axios.get('/comments');
 };
 
 export const createComment = comment => {
-  axios.post("/comments", comment);
+  return axios.post('/comments', comment);
+};
+
+export const getAllCommentsForSong = id => {
+  return axios.get(`/comments/${id}`);
 };

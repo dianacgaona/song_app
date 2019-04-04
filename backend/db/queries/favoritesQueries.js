@@ -45,16 +45,18 @@ const getFavoritesForUser = (req, res, next) => {
 };
 
 const createFavorite = (req, res, next) => {
-  db.none(
-    "INSERT INTO favorites(user_id, song_id) VALUES (${user_id}, ${song_id})",
+  console.log(req.body);
+  db.one(
+    "INSERT INTO favorites(user_id, song_id) VALUES (${user_id}, ${song_id}) RETURNING *",
     {
       user_id: parseInt(req.body.user_id),
       song_id: parseInt(req.body.song_id)
     }
   )
-    .then(() => {
+    .then(favorite => {
       res.status(200).json({
-        message: "Favorite created!"
+        message: "Favorite created!",
+        favorite: favorite
       });
     })
     .catch(err => {
@@ -63,8 +65,13 @@ const createFavorite = (req, res, next) => {
 };
 
 const deleteFavorite = (req, res, next) => {
-  let favoriteId = parseInt(req.params.id);
-  db.result("DELETE FROM favorites WHERE id=$1", favoriteId)
+  console.log(req.body);
+  let userId = parseInt(req.params.userId);
+  let songId = parseInt(req.params.songId);
+  db.result("DELETE FROM favorites WHERE user_id=$1 AND song_id=$2", [
+    userId,
+    songId
+  ])
     .then(result => {
       res.status(200).json({
         status: "success",

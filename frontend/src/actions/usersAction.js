@@ -1,42 +1,24 @@
-import * as usersApi from '../utils/usersUtil';
+import * as usersApi from "../utils/usersUtil";
 
-export let RECEIVE_USER = 'RECEIVE_USER';
-// export let RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
+export let RECEIVE_USERS = "RECEIVE_USERS";
 
 // debugger;
-export const receivedUser = user => {
+export const receivedUsers = users => {
   // debugger;
   return {
-    type: RECEIVE_USER,
-    user: user,
+    type: RECEIVE_USERS,
+    users: users
   };
 };
 
-// export const receivedCurrentUser = currentUser => ({
-//   type: RECEIVE_CURRENT_USER,
-//   currentUser: currentUser,
-// });
-
-export const getSingleUser = id => dispatch => {
-  // debugger;
+export const getAllUsers = () => dispatch => {
   return usersApi
-    .getSingleUser(id)
+    .getAllUsers()
     .then(res => {
       // debugger;
-      return dispatch(receivedUser(res.data.user));
+      return dispatch(receivedUsers(res.data.users));
     })
     .catch(err => {
       console.log(err);
     });
 };
-
-// export const getCurrentUser = () => dispatch => {
-//   return usersApi
-//     .getCurrentUser()
-//     .then(res => {
-//       return dispatch(receivedCurrentUser(res.data.user));
-//     })
-//     .catch(err => {
-//       console.log(err);
-//     });
-// };

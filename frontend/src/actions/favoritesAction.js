@@ -1,28 +1,19 @@
-import * as favoritesApi from '../utils/favoritesUtil';
+import * as favoritesApi from "../utils/favoritesUtil";
 
-export let RECEIVE_FAVORITES = 'RECEIVE_FAVORITES';
-export let RECEIVE_FAVORITE = 'RECEIVE_FAVORITE';
-export let RECEIVE_FAVORITES_FOR_SONG = 'RECEIVE_FAVORITES_FOR_SONG';
+export let RECEIVE_FAVORITES = "RECEIVE_FAVORITES";
+export let RECEIVE_FAVORITE = "RECEIVE_FAVORITE";
 
 export const receivedFavorites = favorites => {
   return {
     type: RECEIVE_FAVORITES,
-    favorites: favorites,
+    favorites: favorites
   };
 };
 
 export const receivedFavorite = favorite => {
   return {
     type: RECEIVE_FAVORITE,
-    favorite: favorite,
-  };
-};
-
-export const receivedFavoritesForSong = songFavorites => {
-  // debugger;
-  return {
-    type: RECEIVE_FAVORITES_FOR_SONG,
-    songFavorites: songFavorites,
+    favorite: favorite
   };
 };
 
@@ -37,24 +28,23 @@ export const createFavorite = favorite => dispatch => {
     });
 };
 
-export const getAllFavorites = () => dispatch => {
+export const deleteFavorite = favorite => dispatch => {
   return favoritesApi
-    .getAllFavorites()
+    .deleteFavorite(favorite.user_id, favorite.song_id)
     .then(res => {
-      // debugger;
-      return dispatch(receivedFavorites(res.data.favorites));
+      return dispatch(receivedFavorite(res.data.favorite));
     })
     .catch(err => {
       console.log(err);
     });
 };
 
-export const getFavoritesForSong = id => dispatch => {
-  // debugger;
+export const getAllFavorites = () => dispatch => {
   return favoritesApi
-    .getFavoritesForSong(id)
+    .getAllFavorites()
     .then(res => {
-      return dispatch(receivedFavoritesForSong(res.data.favorites));
+      // debugger;
+      return dispatch(receivedFavorites(res.data.favorites));
     })
     .catch(err => {
       console.log(err);

@@ -1,11 +1,11 @@
-import * as genresApi from '../utils/genresUtil';
+import * as genresApi from "../utils/genresUtil";
 
-export let RECEIVE_GENRES = 'RECEIVE_GENRES';
+export let RECEIVE_GENRES = "RECEIVE_GENRES";
 
 export const receivedGenres = genres => {
   return {
     type: RECEIVE_GENRES,
-    genres: genres,
+    genres: genres
   };
 };
 

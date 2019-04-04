@@ -1,103 +1,89 @@
-import React, { Component } from "react";
-import "../../css/index.css";
-import "../../css/songs.css";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import React, { Component } from 'react';
+import '../../css/index.css';
+import '../../css/songs.css';
+import SongItemContainer from '../songitem/SongItemContainer';
 
 class AllSongs extends Component {
   state = {
-    search: "",
-    songs: [],
-    songSearchResults: [],
-    commentInput: ""
+    input: '',
+    search: '',
   };
 
   componentDidMount() {
-    this.props.fetchAllSongs();
-    this.getAllSongs();
+    this.props.getAllSongs();
+    this.props.getAllUsers();
+    this.props.getAllFavorites();
+    this.props.getAllGenres();
+    // this.props.getAllComments();
   }
 
-  getAllSongs = () => {
-    axios.get("/songs").then(res => {
-      this.setState({
-        songs: res.data.songs,
-        songSearchResults: res.data.songs
-      });
+  showFaves = songID => {
+    let { favorites } = this.props;
+    let faves = favorites.filter(fave => {
+      return fave.song_id === songID;
+    });
+    if (faves.length) {
+      return faves.length;
+    } else {
+      return 0;
+    }
+  };
+
+  displaySongs = songs => {
+    let songItems = songs.map(song => {
+      return (
+        <SongItemContainer
+          key={song.id}
+          songID={song.id}
+          song_title={song.title}
+          song_img={song.img_url}
+          genreID={song.genre_id}
+          userID={song.poster_id}
+          username={song.poster}
+          song_genre={song.genre}
+          totalFaves={this.showFaves(song.id)}
+        />
+      );
+    });
+    return <div>{songItems}</div>;
+  };
+
+  searchForSongs = songs => {
+    let { search } = this.state;
+    return songs.filter(song => {
+      return song.title.toLowerCase().includes(search.toLowerCase());
     });
   };
 
   handleChange = e => {
-    let searchResult = this.state.songs.filter(song => {
-      return song.title.toLowerCase().includes(e.target.value.toLowerCase());
-    });
     this.setState({
-      search: e.target.value,
-      songSearchResults: searchResult
+      [e.target.name]: e.target.value,
     });
   };
 
-  handleSearch = e => {
+  handleSubmit = e => {
     e.preventDefault();
-    const { search, songs } = this.state;
-    let songResults = songs.filter(songs => {
-      return songs.title.toLowerCase().includes(search.toLowerCase());
-    });
+    let { input } = this.state;
     this.setState({
-      searchResults: songResults
-    });
-  };
-
-  displayAllSongs = () => {
-    return this.state.songSearchResults.map(song => {
-      return (
-        <div key={song.id} className="songs_container">
-          <div className="songs_left">
-            <img src={song.img_url} alt="" className="songs_img" />
-          </div>
-          <div className="songs_right">
-            <div className="songs_title">
-              <div>
-                <h3>{song.title}</h3>
-              </div>
-              <div className="songs_favorite">
-                <p>{song.favorites} favorites</p>
-                <button>Favorite</button>
-              </div>
-            </div>
-            <div className="songs_poster">
-              <Link to={`/users/${song.poster_id}`}>{song.poster}</Link>
-              <span className="songs_separator">·</span>
-              <p>{song.genre}</p>
-            </div>
-            <div className="songs_comments">
-              <div>{song.comments}</div>
-            </div>
-            <div className="songs_form">
-              <form className="form">
-                <input
-                  type="text"
-                  placeholder="Comment"
-                  className="form_input"
-                />
-                <button className="form_button">Add Comment</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      );
+      search: input,
+      input: '',
     });
   };
 
   render() {
+    console.log(this.props, 'PROPS IN ALL SONGS');
+    let { songs } = this.props;
+    let songsFiltered = this.searchForSongs(songs);
     return (
       <div className="main_container">
+        <h1 className="page_title">Search By Title</h1>
+
         <div className="form_div">
-          <h2 className="page_title">Search By Title</h2>
-          <form className="form" onSubmit={this.handleSearch}>
+          <form className="form" onSubmit={this.handleSubmit}>
             <input
               type="text"
-              name="search"
-              value={this.state.search}
+              name="input"
+              value={this.state.input}
               onChange={this.handleChange}
               placeholder="Title"
               className="form_input"
@@ -106,7 +92,7 @@ class AllSongs extends Component {
           </form>
         </div>
 
-        <div className="songs_maindiv">{this.displayAllSongs()}</div>
+        <div className="songs_maindiv">{this.displaySongs(songsFiltered)}</div>
       </div>
     );
   }

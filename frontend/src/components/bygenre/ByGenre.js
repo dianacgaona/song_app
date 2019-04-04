@@ -1,25 +1,74 @@
 import React, { Component } from 'react';
 import '../../css/index.css';
 import '../../css/songs.css';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-// import GenresContainer from "./GenresContainer";
+import SongItemContainer from '../songitem/SongItemContainer';
 
 class AllSongs extends Component {
   state = {
-    genres: [],
-    songs: [],
     selectedGenre: '',
-    formSubmitted: false,
-    searchResults: [],
+    genreToDisplay: '',
   };
 
   componentDidMount() {
-    this.props.fetchAllSongs();
-    this.getAllSongs();
-    this.genreList();
+    this.props.getAllGenres();
+    this.props.getAllFavorites();
+    this.props.getAllComments();
+    this.props.getAllUsers();
+    this.props.getAllSongs();
   }
-  //   this.props.getGenres();
+
+  displaySongs = () => {
+    let { songs, genres } = this.props;
+    let songItems = songs.map(song => {
+      return (
+        <SongItemContainer
+          key={song.id}
+          songID={song.id}
+          song_title={song.title}
+          song_img={song.img_url}
+          genreID={song.genre_id}
+          userID={song.poster_id}
+          username={song.poster}
+          song_genre={song.genre}
+          totalFaves={this.showFaves(song.id)}
+        />
+      );
+    });
+    if (!this.state.genreToDisplay) return songItems;
+    let genreSelected = genres.filter(genre => {
+      return (
+        this.state.genreToDisplay.toLowerCase() ===
+        genre.genre_name.toLowerCase()
+      );
+    });
+    return songItems.filter(song => {
+      return song.props.genreID === genreSelected['0'].id;
+    });
+  };
+
+  showFaves = songID => {
+    let { favorites } = this.props;
+    let faves = favorites.filter(fave => {
+      return fave.song_id === songID;
+    });
+    if (faves.length) {
+      return faves.length;
+    } else {
+      return 0;
+    }
+  };
+
+  displayGenreList = () => {
+    let { genres } = this.props;
+    let genreList = genres.map(genre => {
+      return (
+        <option key={genre.id} value={genre.genre_name}>
+          {genre.genre_name}
+        </option>
+      );
+    });
+    return genreList;
+  };
 
   handleSelect = e => {
     this.setState({
@@ -30,87 +79,11 @@ class AllSongs extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.setState({
-      formSubmitted: true,
-    });
-  };
-
-  genreList = () => {
-    axios.get('/genres').then(res => {
-      this.setState({
-        genres: res.data.genres,
-      });
-    });
-  };
-
-  getAllSongs = () => {
-    axios.get('/songs').then(res => {
-      this.setState({
-        songs: res.data.songs,
-      });
-    });
-  };
-
-  displayGenres = () => {
-    return this.state.genres.map(genre => {
-      return (
-        <option key={genre.id} value={genre.genre_name}>
-          {genre.genre_name}
-        </option>
-      );
+      genreToDisplay: this.state.selectedGenre,
     });
   };
 
   render() {
-    const { selectedGenre, formSubmitted, songs } = this.state;
-    console.log(this.state, 'STATEEEE');
-
-    let songFilter = songs;
-
-    if (formSubmitted && selectedGenre) {
-      songFilter = songs.filter(song => {
-        return song.genre === selectedGenre;
-      });
-    }
-
-    let displayAllSongs = songFilter.map(song => {
-      return (
-        <div key={song.id} className="songs_container">
-          <div className="songs_left">
-            <img src={song.img_url} alt="" className="songs_img" />
-          </div>
-          <div className="songs_right">
-            <div className="songs_title">
-              <div>
-                <h3>{song.title}</h3>
-              </div>
-              <div className="songs_favorite">
-                <p>{song.favorites} favorites</p>
-                <button>Favorite</button>
-              </div>
-            </div>
-            <div className="songs_poster">
-              <Link to={`/users/${song.poster_id}`}>{song.poster}</Link>
-              <span className="songs_separator">·</span>
-              <p>{song.genre}</p>
-            </div>
-            <div className="songs_comments">
-              <div>{song.comments}</div>
-            </div>
-            <div className="songs_form">
-              <form className="form">
-                <input
-                  type="text"
-                  placeholder="Comment"
-                  className="form_input"
-                />
-                <button className="form_button">Add Comment</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      );
-    });
-
     return (
       <div className="main_container">
         <h1 className="page_title"> Songs By Genre</h1>
@@ -120,15 +93,55 @@ class AllSongs extends Component {
               <option key="0" value="">
                 {' '}
               </option>
-              {this.displayGenres()}
+              {this.displayGenreList()}
             </select>
             <button type="submit">Find Songs</button>
           </form>
         </div>
-        <div className="songs_maindiv">{displayAllSongs}</div>
+        <div className="songs_maindiv">{this.displaySongs()}</div>
       </div>
     );
   }
 }
 
 export default AllSongs;
+
+//
+// let displayAllSongs = songFilter.map(song => {
+//   return (
+//     <div key={song.id} className="songs_container">
+//       <div className="songs_left">
+//         <img src={song.img_url} alt="" className="songs_img" />
+//       </div>
+//       <div className="songs_right">
+//         <div className="songs_title">
+//           <div>
+//             <h3>{song.title}</h3>
+//           </div>
+//           <div className="songs_favorite">
+//             <p>{song.favorites} favorites</p>
+//             <button>Favorite</button>
+//           </div>
+//         </div>
+//         <div className="songs_poster">
+//           <Link to={`/users/${song.poster_id}`}>{song.poster}</Link>
+//           <span className="songs_separator">·</span>
+//           <p>{song.genre}</p>
+//         </div>
+//         <div className="songs_comments">
+//           <div>{song.comments}</div>
+//         </div>
+//         <div className="songs_form">
+//           <form className="form">
+//             <input
+//               type="text"
+//               placeholder="Comment"
+//               className="form_input"
+//               />
+//             <button className="form_button">Add Comment</button>
+//           </form>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// });

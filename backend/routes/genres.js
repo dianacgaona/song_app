@@ -1,9 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const { getAllGenres, createGenre } = require('../db/queries/genresQueries');
+const {
+  getAllGenres,
+  getOneGenre,
+  createGenre
+} = require("../db/queries/genresQueries");
 
-router.get('/', getAllGenres);
-router.post('/', createGenre);
+router.get("/", getAllGenres);
+router.get("/:id", getOneGenre);
+router.post("/", createGenre);
 
 module.exports = router;
