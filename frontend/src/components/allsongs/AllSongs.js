@@ -1,3 +1,7 @@
+// This page looks great. Everything working as expected.
+// Small note, I did hit a debugger when I made a comment :-).
+// Don't forget to remove these in your code projects.
+
 import React, { Component } from 'react';
 import '../../css/index.css';
 import '../../css/songs.css';

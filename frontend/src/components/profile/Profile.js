@@ -1,3 +1,13 @@
+//Only thing that was a little off on this was
+// that all of them listed the name of the user ad doge. 
+// Also there was no css that helped me tell whether I was looking
+// at the posted or favortied.
+//
+// Overall though, this project has come a long way and you
+// should be super proud of how much you got done last week.
+// I will marking this assignment as complete. Great job and enjoy
+// the rest of capstone!
+
 import React, { Component } from 'react';
 import SongItemContainer from '../songitem/SongItemContainer';
 
